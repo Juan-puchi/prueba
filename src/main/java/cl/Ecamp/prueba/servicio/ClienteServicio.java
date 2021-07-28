@@ -44,6 +44,7 @@ public class ClienteServicio {
 		return lista;
 	}
 	
+	//Castear como buscar cliente
 	public void mostrarCliente(String run) {
 		listaClientes.stream().filter(cliente -> cliente.getRunCliente().equals(run)).map(cliente -> 
 				"-------------Actualizando datos del Cliente-------------"

@@ -62,9 +62,6 @@ public class Cliente {
 		return "Cliente [runCliente=" + runCliente + ", nombreCliente=" + nombreCliente + ", apellidoCliente="
 				+ apellidoCliente + ", aniosCliente=" + aniosCliente + ", nombreCategoria=" + nombreCategoria + "]";
 	}
-    
-    
-    
-	
+
 	
 }
