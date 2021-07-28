@@ -10,6 +10,8 @@ public class ClienteServicio {
 
 	List<Cliente> listaClientes;
 
+	public ClienteServicio() {
+	}	
 	public ClienteServicio(List<Cliente> listaClientes) {
 		this.listaClientes = listaClientes;
 	}
@@ -17,7 +19,6 @@ public class ClienteServicio {
 	public List<Cliente> getListaClientes() {
 		return listaClientes;
 	}
-
 	public void setListaClientes(List<Cliente> listaClientes) {
 		this.listaClientes = listaClientes;
 	}
@@ -43,25 +44,20 @@ public class ClienteServicio {
 		return lista;
 	}
 	
+	public void mostrarCliente(String run) {
+		listaClientes.stream().filter(cliente -> cliente.getRunCliente().equals(run)).map(cliente -> 
+				"-------------Actualizando datos del Cliente-------------"
+				+ "\n1.-El RUN del Cliente es: "+cliente.getRunCliente()
+				+ "\n2.-El Nombre del Cliente es: "+cliente.getNombreCliente()
+				+ "\n3.-El Apellido del Cliente es: "+cliente.getApellidoCliente()
+				+ "\n4.-Los años como Cliente son: "+cliente.getAniosCliente()
+				+ "\n-------------------------------------------").
+				forEach(cliente ->System.out.println(cliente));
+	}
 	
+	public Cliente buscarCliente(String run) {
+		return (Cliente) listaClientes.stream().filter(cliente -> cliente.getRunCliente().equals(run));
+	}
 	
 
-
-	
-	
-//	-------------Datos del Cliente-------------
-//	RUN del Cliente: 12.123.412-2
-//	Nombre del Cliente: Nicolas
-//	Apellido del Cliente: Cake
-//	Años como Cliente: 7 años
-//	Categoría del Cliente: Activo
-//	-------------------------------------------
-//	-------------Datos del Cliente-------------
-//	RUN del Cliente: 25.673.022-2
-//	Nombre del Cliente: Taylor
-//	Apellido del Cliente: Shift S.
-//	Años como Cliente: 1 día
-//	Categoría del Cliente: Activo
-//	-------------------------------------------
-	
 }

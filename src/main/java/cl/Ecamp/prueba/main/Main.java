@@ -6,6 +6,7 @@ import java.util.List;
 import cl.Ecamp.prueba.modelo.CategoriaEnum;
 import cl.Ecamp.prueba.modelo.Cliente;
 import cl.Ecamp.prueba.servicio.ClienteServicio;
+import cl.Ecamp.prueba.vista.Menu;
 
 public class Main {
 
@@ -20,6 +21,12 @@ public class Main {
 		cs.agregarCliente(c2);
 		List<String> lista = cs.listarClientes();
 		lista.forEach(clienteI -> System.out.println(clienteI));
+		
+		cs.mostrarCliente("1.111.111-2");
+		
+		
+		Menu menu = new Menu();
+		menu.mostrarMenu();
 		
 		
 	}
