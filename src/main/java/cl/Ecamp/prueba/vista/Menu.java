@@ -1,4 +1,12 @@
 package cl.Ecamp.prueba.vista;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 import cl.Ecamp.prueba.modelo.CategoriaEnum;
@@ -19,18 +27,14 @@ public class Menu {
 	String run, nombre, apellido;
 	int anios, numero, numero2;
 	Cliente cliente;
-		
+	String dato;
+
 	public void mostrarMenu() {
-		
+
 		do {
-			System.out.println("1.- Listar Clientes\n" +
-								"2.- Agregar Cliente\n" +
-								"3.- Editar Cliente\n"+
-								"4.- Cargar Datos\n" +
-								"5.- Exportar Datos\n" +
-								"6.- Salir\n" + 
-								"Ingrese una opción:");
-			
+			System.out.println("1.- Listar Clientes\n" + "2.- Agregar Cliente\n" + "3.- Editar Cliente\n"
+					+ "4.- Importar Datos\n" + "5.- Exportar Datos\n" + "6.- Salir\n" + "Ingrese una opción:");
+
 			opcion = sc.nextLine();
 			numeroMenu = Integer.parseInt(opcion);
 
@@ -43,16 +47,14 @@ public class Menu {
 			case 2:
 				agregarCliente();
 				break;
-			
+
 			case 3:
 				editarCliente();
 				break;
 
 			case 4:
-				System.out.println("Ingresa la ruta en donde desea importar el archivo");
-				String ruta = sc.nextLine();
-					
-				System.out.println("Datos cargados correctamente en la lista.\n");
+				importarDatos();
+
 				break;
 
 			case 6:
@@ -72,7 +74,7 @@ public class Menu {
 	public void listarClientes() {
 		cs.listarClientes().forEach(clienteI -> System.out.println(clienteI));
 	}
-	
+
 	public void agregarCliente() {
 		System.out.println("-------------Crear Cliente-------------");
 		System.out.println("Ingresa RUN del Cliente:");
@@ -87,7 +89,7 @@ public class Menu {
 		cliente = new Cliente(run, nombre, apellido, anios, CategoriaEnum.ACTIVO);
 		cs.agregarCliente(cliente);
 	}
-	
+
 	public void editarCliente() {
 		System.out.println("-------------Editar Cliente-------------");
 		System.out.println("Seleccione qué desea hacer:");
@@ -114,41 +116,84 @@ public class Menu {
 				cliente.setNombreCategoria(CategoriaEnum.ACTIVO);
 			else
 				System.out.println("Parámetro ingresado no corresponde");
-		
+
 		} else if (numero == 2) {
 			cs.mostrarCliente(run);
 			System.out.println("Ingrese opcion a editar de los datos del cliente:");
 			System.out.println("----------------------------------------");
 			numero = Integer.parseInt(sc.nextLine());
 			cliente = cs.buscarCliente(run);
-			
+
 			switch (numero) {
 			case 1:
 				System.out.println("Ingrese el nuevo run del cliente: ");
-				run = sc.nextLine();
-				cliente.setRunCliente(run);
+				dato = sc.nextLine();
+
 				break;
 			case 2:
 				System.out.println("Ingrese el nuevo nombre del cliente: ");
-				nombre = sc.nextLine();
-				cliente.setNombreCliente(nombre);
+				dato = sc.nextLine();
+
 				break;
 			case 3:
 				System.out.println("Ingrese el nuevo apellido del cliente: ");
-				apellido = sc.nextLine();
-				cliente.setApellidoCliente(apellido);
+				dato = sc.nextLine();
+
 				break;
 			case 4:
 				System.out.println("Ingrese los años del cliente: ");
-				anios = Integer.parseInt(sc.nextLine());
-				cliente.setAniosCliente(anios);
+				dato = (sc.nextLine());
+
 				break;
 			default:
 				System.out.println("La opción ingresada no es correcta. Volverá al Menú.\n");
 				break;
 			}
-
+			cs.editarCliente(numero, dato);
 		}
+
 	}
-	
+
+	public void importarDatos() {
+		System.out.println("Ingresa la ruta donde se encuentra el archivo DBClientes.csv");
+		String ruta = sc.nextLine();
+		File archivo = new File(ruta + "/DBClientes.csv");
+		try {
+			FileReader fr = new FileReader(archivo);
+			BufferedReader br = new BufferedReader(fr);
+
+			String linea = br.readLine();
+			ArrayList<Cliente> clientesImportados = new ArrayList<Cliente>();
+
+			while (linea != null) {
+				linea.split(",");
+				String[] datos = linea.split(",");
+
+				if (datos[4].equals("Activo"))
+
+					cliente = new Cliente(datos[0], datos[1], datos[2], Integer.parseInt(datos[3].substring(0, 1)),
+							CategoriaEnum.ACTIVO);
+
+				else
+					cliente = new Cliente(datos[0], datos[1], datos[2], Integer.parseInt(datos[3].substring(0, 1)),
+							CategoriaEnum.INACTIVO);
+				
+				clientesImportados.add(cliente);
+				
+				linea= br.readLine();
+				
+			}
+			
+			cs.agregarCliente(clientesImportados);
+			
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		System.out.println("Datos cargados correctamente en la lista.\n");
+
+	}
+
 }
