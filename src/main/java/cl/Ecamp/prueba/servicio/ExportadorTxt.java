@@ -8,13 +8,14 @@ import java.util.List;
 
 import cl.Ecamp.prueba.modelo.Cliente;
 
-public class ExportadorTxt extends Exportador{
-	
+public class ExportadorTxt extends Exportador {
+
 	public void exportar(String fileName, List<Cliente> listaClientes) {
 
 		try {
-			File fichero = new File("src/datos/" + fileName + ".txt");
+			File fichero = new File("src/main/java/datos/" + fileName + ".txt");
 			fichero.createNewFile();
+			
 			FileWriter fw = new FileWriter(fichero);
 			BufferedWriter bw = new BufferedWriter(fw);
 
@@ -23,7 +24,7 @@ public class ExportadorTxt extends Exportador{
 				bw.newLine();
 			}
 
-			System.out.println("Datos de clientes exportados correctamente en formato txt");
+			System.out.println("Datos de clientes exportados correctamente en formato txt.\n");
 
 			bw.close();
 

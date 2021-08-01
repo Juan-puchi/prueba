@@ -12,7 +12,7 @@ public class ExportadorCsv extends Exportador {
 	public void exportar(String fileName, List<Cliente> listaClientes) {
 
 		try {
-			File fichero = new File("src/datos/" + fileName + ".csv");
+			File fichero = new File("src/main/java/datos/" + fileName + ".csv");
 			fichero.createNewFile();
 			FileWriter fw = new FileWriter(fichero);
 			BufferedWriter bw = new BufferedWriter(fw);
@@ -22,7 +22,7 @@ public class ExportadorCsv extends Exportador {
 				bw.newLine();
 			}
 
-			System.out.println("Datos de clientes exportados correctamente en formato csv");
+			System.out.println("Datos de clientes exportados correctamente en formato csv.\n");
 
 			bw.close();
 

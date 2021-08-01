@@ -7,8 +7,7 @@ import java.util.stream.Collectors;
 import cl.Ecamp.prueba.modelo.Cliente;
 
 public class ClienteServicio {
-
-	List<Cliente> listaClientes;
+	List<Cliente> listaClientes = new ArrayList<Cliente>();
 
 	public ClienteServicio() {
 	}
@@ -45,7 +44,6 @@ public class ClienteServicio {
 		return lista;
 	}
 
-	// Castear como buscar cliente
 	public void mostrarCliente(String run) {
 		listaClientes.stream().filter(cliente -> cliente.getRunCliente().equals(run))
 				.map(cliente -> "-------------Actualizando datos del Cliente-------------"
@@ -56,25 +54,37 @@ public class ClienteServicio {
 				.forEach(cliente -> System.out.println(cliente));
 	}
 
-	public Cliente buscarCliente(String run) {
-		return (Cliente) listaClientes.stream().filter(cliente -> cliente.getRunCliente().equals(run));
+	public boolean buscarCliente(String run) {
+		boolean encontrado = false;
+		for(Cliente cliente: listaClientes) {
+			if(cliente.getRunCliente().equals(run))
+				encontrado = true;
+		}
+		return encontrado;
+	}
+	
+	public Cliente getCliente(String run) {
+		for(Cliente cliente: listaClientes) {
+			if(cliente.getRunCliente().equals(run))
+				return cliente;
+		}
+		return null;
 	}
 
-	public void editarCliente(int numero, String dato) {
-
+	public void editarCliente(String run, int numero, String dato) {
+		Cliente cliente = getCliente(run); 
 		switch (numero) {
 		case 1:
-			buscarCliente(dato).setRunCliente(dato);
-
+			cliente.setRunCliente(dato);
 			break;
 		case 2:
-			buscarCliente(dato).setNombreCliente(dato);
+			cliente.setNombreCliente(dato);
 			break;
 		case 3:
-			buscarCliente(dato).setApellidoCliente(dato);
+			cliente.setApellidoCliente(dato);
 			break;
 		case 4:
-			buscarCliente(dato).setAniosCliente(Integer.parseInt(dato));
+			cliente.setAniosCliente(Integer.parseInt(dato));
 			break;
 		default:
 			System.out.println("La opción ingresada no es correcta. Volverá al Menú.\n");
@@ -83,7 +93,7 @@ public class ClienteServicio {
 	}
 
 	public void agregarCliente(ArrayList<Cliente> listaImportada) {
-
 		listaClientes.addAll(listaImportada);
 	}
+	
 }
